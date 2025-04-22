@@ -1,0 +1,2 @@
+# run this to install graphviz
+sudo apt update && sudo apt install graphviz -y

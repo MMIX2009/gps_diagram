@@ -1,0 +1,44 @@
+digraph {
+	fontsize=10 rankdir=TB
+	node [color="#f6f6ff" fontname=Helvetica shape=box style=filled]
+	start [label=Start]
+	init [label="Initialize Serial and GPS"]
+	wifi [label="Connect to WiFi"]
+	loop [label="Start Loop"]
+	read [label="Read GPS Data"]
+	process [label="Process GPS Data"]
+	validity [label="Check GPS Validity"]
+	time [label="Time to Upload?" color="#f6f6ff" fontname=Helvetica shape=diamond style=filled]
+	gps [label="GPS Valid?" color="#f6f6ff" fontname=Helvetica shape=diamond style=filled]
+	interval [label="Check Upload Interval"]
+	skip [label="Skip Upload"]
+	upload [label="Upload Data"]
+	sendOffline [label="Send Offline Data If Any"]
+	sendSuccess1 [label="Send Success?" color="#f6f6ff" fontname=Helvetica shape=diamond style=filled]
+	clear [label="Clear Offline Data"]
+	sendLatest [label="Send Latest GPS Data"]
+	sendSuccess2 [label="Send Success?" color="#f6f6ff" fontname=Helvetica shape=diamond style=filled]
+	uploadSuccess [label="Upload Successful"]
+	storeOffline [label="Store Data Offline"]
+	start -> init
+	init -> wifi
+	wifi -> loop
+	loop -> read
+	read -> process
+	process -> validity
+	validity -> time
+	time -> upload [label=Yes]
+	time -> gps [label=No]
+	gps -> interval [label=Yes]
+	gps -> skip [label=No]
+	interval -> loop
+	skip -> loop
+	upload -> sendOffline
+	sendOffline -> sendSuccess1
+	sendSuccess1 -> clear [label=Yes]
+	clear -> sendLatest
+	sendLatest -> sendSuccess2
+	sendSuccess2 -> uploadSuccess [label=Yes]
+	sendSuccess2 -> storeOffline [label=No]
+	sendSuccess1 -> storeOffline [label=No]
+}
